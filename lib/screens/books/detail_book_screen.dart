@@ -37,8 +37,23 @@ class DetailBookScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        child: Text(book.isbn),
+      body: Center(
+        child: Container(
+          padding: EdgeInsets.all(36),
+          child: Column(
+            children: [
+              Text(book.isbn),
+              Text(book.title),
+              Text(book.subtitle != null ? book.subtitle : ''),
+              Text(book.author != null ? book.author : ''),
+              Text(book.published != null ? book.subtitle : ''),
+              Text(book.publisher != null ? book.publisher : ''),
+              Text(book.pages != null ? book.pages.toString() : ''),
+              Text(book.description != null ? book.description : ''),
+              Text(book.website != null ? book.website : ''),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_api/models/user.dart';
+import 'package:simple_api/screens/auth/auth_screen.dart';
 import 'package:simple_api/utils/rest_api.dart';
 import 'package:http/http.dart' as http;
 
@@ -37,6 +39,34 @@ class _ProfileState extends State<Profile> {
     }
   }
 
+  Future logoutUser() async {
+    final SharedPreferences? prefs = await _prefs;
+    var headers = {
+      "Access-Control-Allow-Origin": "*",
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${prefs?.get('token')}'
+    };
+
+    var url = Uri.parse(RestApi.baseUrl + RestApi.authApi.logout);
+
+    http.Response response = await http.delete(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body.toString());
+
+      print(data);
+      if (data['message'] == 'Logged out') {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        await preferences.remove('token');
+        Get.offAll(AuthScreen());
+      } else {
+        throw jsonDecode(response.body)["message"] ?? "Unknown Error Occured";
+      }
+    } else {
+      throw jsonDecode(response.body)["Message"] ?? "Unknown Error Occured";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +87,12 @@ class _ProfileState extends State<Profile> {
                   Text('${snapshot.data!.emailVerifiedAt}'),
                   Text('${snapshot.data!.createdAt}'),
                   Text('${snapshot.data!.updatedAt}'),
+                  ElevatedButton(
+                    onPressed: () {
+                      logoutUser();
+                    },
+                    child: Text('Log Out'),
+                  ),
                 ],
               );
             }

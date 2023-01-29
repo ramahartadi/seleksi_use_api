@@ -25,7 +25,6 @@ class _EditBookScreenState extends State<EditBookScreen> {
     editBookController.authorController.text = '${widget.book.author}';
     editBookController.publishedController.text = '${widget.book.published}';
     editBookController.publisherController.text = '${widget.book.publisher}';
-    editBookController.pagesController.text = '${widget.book.pages}';
     editBookController.descriptionController.text =
         '${widget.book.description}';
     editBookController.websiteController.text = '${widget.book.website}';
@@ -34,7 +33,12 @@ class _EditBookScreenState extends State<EditBookScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(child: editBookWidget()),
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+          child: Padding(
+        padding: const EdgeInsets.all(36.0),
+        child: editBookWidget(),
+      )),
     );
   }
 
@@ -64,10 +68,6 @@ class _EditBookScreenState extends State<EditBookScreen> {
         ),
         InputTextFieldWidget(
             editBookController.publisherController, 'publisher'),
-        SizedBox(
-          height: 20,
-        ),
-        InputTextFieldWidget(editBookController.pagesController, 'pages'),
         SizedBox(
           height: 20,
         ),

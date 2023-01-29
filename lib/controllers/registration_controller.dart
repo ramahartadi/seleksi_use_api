@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:simple_api/screens/home_screen.dart';
 import 'package:simple_api/utils/rest_api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
