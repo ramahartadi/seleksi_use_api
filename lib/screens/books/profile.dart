@@ -70,33 +70,43 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Center(
-        child: FutureBuilder<User>(
-          future: fetchUserData(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return Column(
-                children: [
-                  Text('${snapshot.data!.id}'),
-                  Text(snapshot.data!.name),
-                  Text(snapshot.data!.email),
-                  Text('${snapshot.data!.emailVerifiedAt}'),
-                  Text('${snapshot.data!.createdAt}'),
-                  Text('${snapshot.data!.updatedAt}'),
-                  ElevatedButton(
-                    onPressed: () {
-                      logoutUser();
-                    },
-                    child: Text('Log Out'),
-                  ),
-                ],
-              );
-            }
-          },
+        child: Padding(
+          padding: EdgeInsets.all(36),
+          child: FutureBuilder<User>(
+            future: fetchUserData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return Column(
+                  children: [
+                    Text('${snapshot.data!.id}'),
+                    Text(snapshot.data!.name),
+                    Text(snapshot.data!.email),
+                    Text('${snapshot.data!.emailVerifiedAt}'),
+                    Text('${snapshot.data!.createdAt}'),
+                    Text('${snapshot.data!.updatedAt}'),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.red)),
+                      onPressed: () {
+                        logoutUser();
+                      },
+                      child: Text('Log Out'),
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
         ),
       ),
     );

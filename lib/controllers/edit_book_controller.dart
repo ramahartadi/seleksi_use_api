@@ -29,8 +29,7 @@ class EditBookController extends GetxController {
     };
     try {
       var url = Uri.parse(RestApi.baseUrl +
-          RestApi.bookApi.books +
-          '/' +
+          RestApi.bookApi.getBookById +
           idBook.toString() +
           '/edit');
       Map body = {
